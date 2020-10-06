@@ -8,6 +8,7 @@ use \Slim\Slim;
 use \Hcode\Page;
 use \Hcode\PageAdmin;
 use \Hcode\Model\User;
+use \PHPMailer\PHPMailer;
 
 $app = new Slim();
 
@@ -135,6 +136,37 @@ $app->post("/admin/users/:iduser", function($iduser){
 
 	header("Location: /admin/users");
 	exit;
+});
+
+$app->get('/admin/forgot', function() {
+
+	$page = new PageAdmin([
+		"header"=>false,
+		"footer"=>false
+	]);
+
+	$page->setTpl("forgot");
+
+});
+
+$app->post("/admin/forgot", function () {
+	
+	$user = User::getForgot($_POST["email"]);
+
+	header("Location: /admin/forgot/sent");
+	exit;
+
+});
+
+$app->get("/admin/forgot/sent", function() {
+
+	$page = new PageAdmin([
+		"header"=>false,
+		"footer"=>false
+	]);
+
+	$page->setTpl("forgot");
+
 });
 
 $app->run();
