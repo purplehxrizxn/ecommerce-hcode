@@ -6,6 +6,7 @@ use \Hcode\Model\User;
 use \PHPMailer\PHPMailer;
 use \Hcode\Model\Category;
 use \Hcode\Model\Products;
+use \Hcode\Model\Cart;
 
 
 $app->get('/', function() {
@@ -60,4 +61,14 @@ $app->get('/products/:desurl', function ($desurl){
 		'product'=>$product->getValues(),
 		'categories'=>$product->getCategories()
 	]);
+});
+
+$app->get('/cart', function(){
+
+	$cart = Cart::getFromSession();
+	
+	$page = new Page();
+
+	$page->setTPl("cart");
+
 });
